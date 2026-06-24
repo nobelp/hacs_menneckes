@@ -1,17 +1,11 @@
-name: HACS Action
-
-on:
-  push:
-  pull_request:
-  schedule:
-    - cron: "0 0 * * *"
-
+# .github/workflows/validate.yaml
+name: HACS Validation
+on: [push, pull_request]
 jobs:
-  hacs:
-    name: HACS Action
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: hacs/action@main
         with:
-          category: python_script
+          category: integration
