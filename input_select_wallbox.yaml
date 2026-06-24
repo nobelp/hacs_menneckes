@@ -1,0 +1,11 @@
+wallbox_month_filter:
+  name: "Wallbox Monatsfilter"
+  options:
+    - "Alle"
+  icon: mdi:calendar-filter
+
+wallbox_rfid_selector:
+  name: "Wallbox RFID auswählen"
+  options:
+    - "Bitte auswählen..."
+  icon: mdi:card-account-details

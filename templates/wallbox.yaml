@@ -1,0 +1,247 @@
+- sensor:
+    - name: "Wallbox Current L1 Ampere"
+      unique_id: wallbox_current_l1_ampere
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+      state: >
+        {{ (states('sensor.meter_current_l1') | float(0) / 1000) | round(2) }}
+      availability: "{{ states('sensor.meter_current_l1') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Current L2 Ampere"
+      unique_id: wallbox_current_l2_ampere
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+      state: >
+        {{ (states('sensor.meter_current_l2') | float(0) / 1000) | round(2) }}
+      availability: "{{ states('sensor.meter_current_l2') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Current L3 Ampere"
+      unique_id: wallbox_current_l3_ampere
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+      state: >
+        {{ (states('sensor.meter_current_l3') | float(0) / 1000) | round(2) }}
+      availability: "{{ states('sensor.meter_current_l3') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Total Energy kWh"
+      unique_id: wallbox_total_energy_kwh
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      state: >
+        {{ (states('sensor.meter_total_energy') | float(0) / 1000) | round(2) }}
+      availability: "{{ states('sensor.meter_total_energy') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Energy L1 kWh"
+      unique_id: wallbox_energy_l1_kwh
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      state: >
+        {{ (states('sensor.meter_energy_l1') | float(0) / 1000) | round(2) }}
+      availability: "{{ states('sensor.meter_energy_l1') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Energy L2 kWh"
+      unique_id: wallbox_energy_l2_kwh
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      state: >
+        {{ (states('sensor.meter_energy_l2') | float(0) / 1000) | round(2) }}
+      availability: "{{ states('sensor.meter_energy_l2') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Energy L3 kWh"
+      unique_id: wallbox_energy_l3_kwh
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      state: >
+        {{ (states('sensor.meter_energy_l3') | float(0) / 1000) | round(2) }}
+      availability: "{{ states('sensor.meter_energy_l3') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Total Power"
+      unique_id: wallbox_total_power
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      state: >
+        {{ states('sensor.meter_total_power') | int(0) }}
+      availability: "{{ states('sensor.meter_total_power') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Session Energy kWh"
+      unique_id: wallbox_session_energy_kwh
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      state: >
+        {{ (states('sensor.charged_energy_32bit') | float(0) / 1000) | round(2) }}
+      availability: "{{ states('sensor.charged_energy_32bit') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Charge Duration Formatted"
+      unique_id: wallbox_charge_duration_formatted
+      state: |
+        {% set s = states('sensor.charge_duration_32bit') | int(0) %}
+        {{ "%02d:%02d:%02d" | format(s // 3600, (s % 3600) // 60, s % 60) }}
+      availability: "{{ states('sensor.charge_duration_32bit') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox CP Status Text"
+      unique_id: wallbox_cp_status_text
+      state: |
+        {% set s = states('sensor.ocpp_cp_status') %}
+        {% set m = {'0':'Verfügbar','1':'Besetzt','2':'Reserviert','3':'Nicht verfügbar',
+                    '4':'Fehler','5':'Vorbereitung','6':'Lädt','7':'Wallbox pausiert',
+                    '8':'Fahrzeug pausiert','9':'Laden abgeschlossen'} %}
+        {{ m.get(s, 'Unbekannt') }}
+      availability: "{{ states('sensor.ocpp_cp_status') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Charging Status"
+      unique_id: wallbox_charging_status
+      state: |
+        {% set s = states('sensor.ocpp_cp_status') %}
+        {% if s == '6' %}Lädt
+        {% elif s == '7' %}Wallbox pausiert
+        {% elif s == '8' %}Fahrzeug pausiert
+        {% elif s in ['0','1','2'] %}Bereit
+        {% elif s == '3' %}Nicht verfügbar
+        {% elif s == '4' %}Fehler
+        {% elif s == '5' %}Startet
+        {% elif s == '9' %}Abgeschlossen
+        {% else %}Unbekannt{% endif %}
+      availability: "{{ states('sensor.ocpp_cp_status') not in ['unknown', 'unavailable'] }}"
+      icon: |
+        {% set s = states('sensor.ocpp_cp_status') %}
+        {% if s == '6' %}mdi:lightning-bolt
+        {% elif s == '4' %}mdi:alert-circle
+        {% elif s in ['0','1','2'] %}mdi:check-circle
+        {% elif s == '3' %}mdi:minus-circle
+        {% else %}mdi:ev-station{% endif %}
+
+    - name: "Wallbox Vehicle State Text"
+      unique_id: wallbox_vehicle_state_text
+      state: |
+        {% set m = {'1':'Zustand A - Kein Fahrzeug','2':'Zustand B - Fahrzeug angesteckt',
+                    '3':'Zustand C - Laden aktiv','4':'Zustand D - Mit Lüftung laden',
+                    '5':'Zustand E - Fehler'} %}
+        {{ m.get(states('sensor.vehicle_state'), 'Unbekannt') }}
+      availability: "{{ states('sensor.vehicle_state') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox DLM Mode Text"
+      unique_id: wallbox_dlm_mode_text
+      state: |
+        {% set m = {'0':'Deaktiviert','1':'DLM Master + Slave','2':'DLM Master Standalone',
+                    '3':'DLM Slave AutoDiscovery','4':'DLM Slave Fixed-IP'} %}
+        {{ m.get(states('sensor.dlm_mode'), 'Unbekannt') }}
+      availability: "{{ states('sensor.dlm_mode') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox CP Availability Text"
+      unique_id: wallbox_cp_availability_text
+      state: |
+        {% set m = {'0':'Nicht verfügbar','1':'Verfügbar'} %}
+        {{ m.get(states('sensor.cp_availability'), 'Unbekannt') }}
+      availability: "{{ states('sensor.cp_availability') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Plug Lock Status Text"
+      unique_id: wallbox_plug_lock_status_text
+      state: |
+        {% set m = {'0':'Entsperrt','1':'Gesperrt'} %}
+        {{ m.get(states('sensor.plug_lock_status'), 'Unbekannt') }}
+      availability: "{{ states('sensor.plug_lock_status') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Error Codes Text"
+      unique_id: wallbox_error_codes_text
+      state: |
+        {% set ec1 = states('sensor.error_codes_1') | int(0) %}
+        {% set errors = [] %}
+        {% if ec1 | bitwise_and(1)     %}{% set _ = errors.append('RCM ausgelöst') %}{% endif %}
+        {% if ec1 | bitwise_and(2)     %}{% set _ = errors.append('Fahrzeugzustand E') %}{% endif %}
+        {% if ec1 | bitwise_and(4)     %}{% set _ = errors.append('Mode3 Dioden-Check') %}{% endif %}
+        {% if ec1 | bitwise_and(8)     %}{% set _ = errors.append('MCB Type2 ausgelöst') %}{% endif %}
+        {% if ec1 | bitwise_and(16)    %}{% set _ = errors.append('MCB Schuko ausgelöst') %}{% endif %}
+        {% if ec1 | bitwise_and(32)    %}{% set _ = errors.append('RCD ausgelöst') %}{% endif %}
+        {% if ec1 | bitwise_and(64)    %}{% set _ = errors.append('Kontakt verschweißt') %}{% endif %}
+        {% if ec1 | bitwise_and(128)   %}{% set _ = errors.append('Backend getrennt') %}{% endif %}
+        {% if ec1 | bitwise_and(256)   %}{% set _ = errors.append('Aktuator-Sperr-Fehler') %}{% endif %}
+        {% if ec1 | bitwise_and(512)   %}{% set _ = errors.append('Aktuator steckt') %}{% endif %}
+        {% if ec1 | bitwise_and(1024)  %}{% set _ = errors.append('Firmware-Update läuft') %}{% endif %}
+        {% if ec1 | bitwise_and(2048)  %}{% set _ = errors.append('Tilt-Fehler') %}{% endif %}
+        {% if ec1 | bitwise_and(4096)  %}{% set _ = errors.append('Falsches CP/PR-Kabel') %}{% endif %}
+        {% if ec1 | bitwise_and(8192)  %}{% set _ = errors.append('Type2 Überlast') %}{% endif %}
+        {% if ec1 | bitwise_and(16384) %}{% set _ = errors.append('Keine Stromversorgung') %}{% endif %}
+        {{ errors | join(', ') if errors else 'Kein Fehler' }}
+      availability: "{{ states('sensor.error_codes_1') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Kosten Gesamt CHF"
+      unique_id: wallbox_kosten_gesamt_chf
+      unit_of_measurement: "CHF"
+      state_class: total
+      state: >
+        {% set total_kwh = state_attr('sensor.wallbox_sessions', 'total_kwh') | float(0) %}
+        {% set price = states('input_number.wallbox_price_per_kwh') | float(0.29) %}
+        {{ (total_kwh * price) | round(2) }}
+      availability: "{{ states('sensor.wallbox_sessions') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox kWh Kessi Gesamt"
+      unique_id: wallbox_kwh_kessi_gesamt
+      unit_of_measurement: "kWh"
+      state_class: total
+      state: >
+        {% set vtotals = state_attr('sensor.wallbox_sessions', 'vehicle_totals') %}
+        {% set vehicles = state_attr('sensor.wallbox_sessions', 'vehicles') %}
+        {% if vtotals and vehicles and vehicles | length > 0 %}
+          {{ vtotals.get(vehicles[0], 0) | round(2) }}
+        {% else %}0{% endif %}
+      availability: "{{ states('sensor.wallbox_sessions') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox kWh Tessi Gesamt"
+      unique_id: wallbox_kwh_tessi_gesamt
+      unit_of_measurement: "kWh"
+      state_class: total
+      state: >
+        {% set vtotals = state_attr('sensor.wallbox_sessions', 'vehicle_totals') %}
+        {% set vehicles = state_attr('sensor.wallbox_sessions', 'vehicles') %}
+        {% if vtotals and vehicles and vehicles | length > 1 %}
+          {{ vtotals.get(vehicles[1], 0) | round(2) }}
+        {% else %}0{% endif %}
+      availability: "{{ states('sensor.wallbox_sessions') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox kWh Aktueller Monat"
+      unique_id: wallbox_kwh_aktueller_monat
+      unit_of_measurement: "kWh"
+      state_class: total
+      state: >
+        {% set monthly = state_attr('sensor.wallbox_sessions', 'monthly_summary') %}
+        {% set current = now().strftime('%Y-%m') %}
+        {% if monthly %}
+          {% set m = monthly | selectattr('month', 'eq', current) | list %}
+          {{ m[0].total | round(2) if m else 0 }}
+        {% else %}0{% endif %}
+      availability: "{{ states('sensor.wallbox_sessions') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Kosten Aktueller Monat CHF"
+      unique_id: wallbox_kosten_aktueller_monat_chf
+      unit_of_measurement: "CHF"
+      state_class: total
+      state: >
+        {% set monthly = state_attr('sensor.wallbox_sessions', 'monthly_summary') %}
+        {% set current = now().strftime('%Y-%m') %}
+        {% set price = states('input_number.wallbox_price_per_kwh') | float(0.29) %}
+        {% if monthly %}
+          {% set m = monthly | selectattr('month', 'eq', current) | list %}
+          {{ (m[0].total * price) | round(2) if m else 0 }}
+        {% else %}0{% endif %}
+      availability: "{{ states('sensor.wallbox_sessions') not in ['unknown', 'unavailable'] }}"
+
+    - name: "Wallbox Chargepoint Model"
+      unique_id: wallbox_chargepoint_model
+      state: >
+        {% set full = (
+          states('sensor.chargepoint_model_1') ~ states('sensor.chargepoint_model_2') ~
+          states('sensor.chargepoint_model_3') ~ states('sensor.chargepoint_model_4') ~
+          states('sensor.chargepoint_model_5')
+        ) | trim %}
+        {{ full if full else 'Unbekannt' }}
+      availability: >
+        {{ states('sensor.chargepoint_model_1') not in ['unknown', 'unavailable', None] }}

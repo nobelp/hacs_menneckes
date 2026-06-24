@@ -1,0 +1,26 @@
+wallbox_hems_current_limit:
+  name: "Wallbox HEMS Stromlimit"
+  unit_of_measurement: "A"
+  min: 0
+  max: 16
+  step: 1
+  mode: slider
+  icon: mdi:lightning-bolt
+
+wallbox_safe_current:
+  name: "Wallbox Safe Current"
+  unit_of_measurement: "A"
+  min: 0
+  max: 32
+  step: 1
+  mode: slider
+  icon: mdi:shield
+
+wallbox_comm_timeout:
+  name: "Wallbox Kommunikations-Timeout"
+  unit_of_measurement: "s"
+  min: 1
+  max: 300
+  step: 1
+  mode: slider
+  icon: mdi:timer

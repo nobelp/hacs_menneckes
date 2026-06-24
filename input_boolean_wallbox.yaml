@@ -1,0 +1,7 @@
+wallbox_cp_availability:
+  name: "Wallbox CP Verfügbarkeit"
+  icon: mdi:ev-station
+
+wallbox_pause_charging:
+  name: "Wallbox Laden pausieren"
+  icon: mdi:pause

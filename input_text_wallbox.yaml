@@ -1,0 +1,45 @@
+wallbox_vehicle_1_rfid:
+  name: "Fahrzeug 1 RFID"
+  max: 20
+  icon: mdi:card-account-details
+
+wallbox_vehicle_1_name:
+  name: "Fahrzeug 1 Name"
+  max: 30
+  icon: mdi:car-electric
+
+wallbox_vehicle_2_rfid:
+  name: "Fahrzeug 2 RFID"
+  max: 20
+  icon: mdi:card-account-details
+
+wallbox_vehicle_2_name:
+  name: "Fahrzeug 2 Name"
+  max: 30
+  icon: mdi:car-electric
+
+wallbox_vehicle_3_rfid:
+  name: "Fahrzeug 3 RFID"
+  max: 20
+  icon: mdi:card-account-details
+
+wallbox_vehicle_3_name:
+  name: "Fahrzeug 3 Name"
+  max: 30
+  icon: mdi:car-electric
+
+wallbox_vehicle_4_rfid:
+  name: "Fahrzeug 4 RFID"
+  max: 20
+  icon: mdi:card-account-details
+
+wallbox_vehicle_4_name:
+  name: "Fahrzeug 4 Name"
+  max: 30
+  icon: mdi:car-electric
+
+wallbox_vehicle_name_new:
+  name: "Neuer Fahrzeugname"
+  max: 30
+  icon: mdi:car-electric
+  mode: text

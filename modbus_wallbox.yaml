@@ -1,0 +1,589 @@
+- name: "Mennekes AMTRON Wallbox"
+  type: tcp
+  host: "YOUR_WALLBOX_IP"
+  port: 502
+  close_comm_on_error: false
+  timeout: 5
+  retries: 3
+  retry_on_empty: true
+  sensors:
+
+    # System
+    - name: "Firmware Version"
+      unique_id: wallbox_firmware_version
+      slave: 1
+      address: 100
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "OCPP CP Status"
+      unique_id: wallbox_ocpp_cp_status
+      slave: 1
+      address: 104
+      input_type: holding
+      data_type: uint16
+      device_class: enum
+
+    - name: "Error Codes 1"
+      unique_id: wallbox_error_codes_1
+      slave: 1
+      address: 105
+      input_type: holding
+      data_type: uint32
+      state_class: measurement
+
+    - name: "Error Codes 2"
+      unique_id: wallbox_error_codes_2
+      slave: 1
+      address: 107
+      input_type: holding
+      data_type: uint32
+      state_class: measurement
+
+    - name: "Error Codes 3"
+      unique_id: wallbox_error_codes_3
+      slave: 1
+      address: 109
+      input_type: holding
+      data_type: uint32
+      state_class: measurement
+
+    - name: "Error Codes 4"
+      unique_id: wallbox_error_codes_4
+      slave: 1
+      address: 111
+      input_type: holding
+      data_type: uint32
+      state_class: measurement
+
+    - name: "Protocol Version"
+      unique_id: wallbox_protocol_version
+      slave: 1
+      address: 120
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "Vehicle State"
+      unique_id: wallbox_vehicle_state
+      slave: 1
+      address: 122
+      input_type: holding
+      data_type: uint16
+      device_class: enum
+
+    - name: "CP Availability"
+      unique_id: wallbox_cp_availability
+      slave: 1
+      address: 124
+      input_type: holding
+      data_type: uint16
+      device_class: enum
+
+    - name: "Modbus Address Offset"
+      unique_id: wallbox_modbus_address_offset
+      slave: 1
+      address: 130
+      input_type: holding
+      data_type: uint16
+      state_class: measurement
+
+    - name: "Safe Current"
+      unique_id: wallbox_safe_current
+      slave: 1
+      address: 131
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "Comm Timeout"
+      unique_id: wallbox_comm_timeout
+      slave: 1
+      address: 132
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "s"
+      state_class: measurement
+
+    - name: "Operator Current Limit"
+      unique_id: wallbox_operator_current_limit
+      slave: 1
+      address: 134
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "Chargepoint Model 1"
+      unique_id: wallbox_chargepoint_model_1
+      slave: 1
+      address: 142
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "Chargepoint Model 2"
+      unique_id: wallbox_chargepoint_model_2
+      slave: 1
+      address: 144
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "Chargepoint Model 3"
+      unique_id: wallbox_chargepoint_model_3
+      slave: 1
+      address: 146
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "Chargepoint Model 4"
+      unique_id: wallbox_chargepoint_model_4
+      slave: 1
+      address: 148
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "Chargepoint Model 5"
+      unique_id: wallbox_chargepoint_model_5
+      slave: 1
+      address: 150
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "Plug Lock Status"
+      unique_id: wallbox_plug_lock_status
+      slave: 1
+      address: 152
+      input_type: holding
+      data_type: uint16
+      state_class: measurement
+
+    # Meter Values
+    - name: "Meter Energy L1"
+      unique_id: wallbox_meter_energy_l1
+      slave: 1
+      address: 200
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "Wh"
+      device_class: energy
+      state_class: total_increasing
+
+    - name: "Meter Energy L2"
+      unique_id: wallbox_meter_energy_l2
+      slave: 1
+      address: 202
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "Wh"
+      device_class: energy
+      state_class: total_increasing
+
+    - name: "Meter Energy L3"
+      unique_id: wallbox_meter_energy_l3
+      slave: 1
+      address: 204
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "Wh"
+      device_class: energy
+      state_class: total_increasing
+
+    - name: "Meter Power L1"
+      unique_id: wallbox_meter_power_l1
+      slave: 1
+      address: 206
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+
+    - name: "Meter Power L2"
+      unique_id: wallbox_meter_power_l2
+      slave: 1
+      address: 208
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+
+    - name: "Meter Power L3"
+      unique_id: wallbox_meter_power_l3
+      slave: 1
+      address: 210
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+
+    - name: "Meter Current L1"
+      unique_id: wallbox_meter_current_l1
+      slave: 1
+      address: 212
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "mA"
+      device_class: current
+      state_class: measurement
+
+    - name: "Meter Current L2"
+      unique_id: wallbox_meter_current_l2
+      slave: 1
+      address: 214
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "mA"
+      device_class: current
+      state_class: measurement
+
+    - name: "Meter Current L3"
+      unique_id: wallbox_meter_current_l3
+      slave: 1
+      address: 216
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "mA"
+      device_class: current
+      state_class: measurement
+
+    - name: "Meter Total Energy"
+      unique_id: wallbox_meter_total_energy
+      slave: 1
+      address: 218
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "Wh"
+      device_class: energy
+      state_class: total_increasing
+
+    - name: "Meter Total Power"
+      unique_id: wallbox_meter_total_power
+      slave: 1
+      address: 220
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+
+    - name: "Meter Voltage L1"
+      unique_id: wallbox_meter_voltage_l1
+      slave: 1
+      address: 222
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "V"
+      device_class: voltage
+      state_class: measurement
+
+    - name: "Meter Voltage L2"
+      unique_id: wallbox_meter_voltage_l2
+      slave: 1
+      address: 224
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "V"
+      device_class: voltage
+      state_class: measurement
+
+    - name: "Meter Voltage L3"
+      unique_id: wallbox_meter_voltage_l3
+      slave: 1
+      address: 226
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "V"
+      device_class: voltage
+      state_class: measurement
+
+    # Dynamic Load Management
+    - name: "DLM Mode"
+      unique_id: wallbox_dlm_mode
+      slave: 1
+      address: 600
+      input_type: holding
+      data_type: uint16
+      device_class: enum
+
+    - name: "DLM EVSE Sub Distribution Limit L1"
+      unique_id: wallbox_dlm_evse_sub_dist_limit_l1
+      slave: 1
+      address: 610
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM EVSE Sub Distribution Limit L2"
+      unique_id: wallbox_dlm_evse_sub_dist_limit_l2
+      slave: 1
+      address: 611
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM EVSE Sub Distribution Limit L3"
+      unique_id: wallbox_dlm_evse_sub_dist_limit_l3
+      slave: 1
+      address: 612
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM Operator EVSE Sub Distribution Limit L1"
+      unique_id: wallbox_dlm_operator_evse_sub_dist_limit_l1
+      slave: 1
+      address: 613
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM Operator EVSE Sub Distribution Limit L2"
+      unique_id: wallbox_dlm_operator_evse_sub_dist_limit_l2
+      slave: 1
+      address: 614
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM Operator EVSE Sub Distribution Limit L3"
+      unique_id: wallbox_dlm_operator_evse_sub_dist_limit_l3
+      slave: 1
+      address: 615
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM External Meter Support"
+      unique_id: wallbox_dlm_external_meter_support
+      slave: 1
+      address: 620
+      input_type: holding
+      data_type: uint16
+      state_class: measurement
+
+    - name: "DLM Num Slaves Connected"
+      unique_id: wallbox_dlm_num_slaves_connected
+      slave: 1
+      address: 621
+      input_type: holding
+      data_type: uint16
+      state_class: measurement
+
+    - name: "DLM Overall Current Applied L1"
+      unique_id: wallbox_dlm_overall_current_applied_l1
+      slave: 1
+      address: 630
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM Overall Current Applied L2"
+      unique_id: wallbox_dlm_overall_current_applied_l2
+      slave: 1
+      address: 631
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM Overall Current Applied L3"
+      unique_id: wallbox_dlm_overall_current_applied_l3
+      slave: 1
+      address: 632
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM Overall Current Available L1"
+      unique_id: wallbox_dlm_overall_current_available_l1
+      slave: 1
+      address: 633
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM Overall Current Available L2"
+      unique_id: wallbox_dlm_overall_current_available_l2
+      slave: 1
+      address: 634
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "DLM Overall Current Available L3"
+      unique_id: wallbox_dlm_overall_current_available_l3
+      slave: 1
+      address: 635
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    # Charge Process
+    - name: "Charged Energy Session"
+      unique_id: wallbox_charged_energy_session
+      slave: 1
+      address: 705
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "Wh"
+      device_class: energy
+      state_class: total_increasing
+
+    - name: "Signaled Current"
+      unique_id: wallbox_signaled_current
+      slave: 1
+      address: 706
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "Start Time"
+      unique_id: wallbox_start_time
+      slave: 1
+      address: 707
+      input_type: holding
+      data_type: uint32
+      state_class: measurement
+
+    - name: "Charge Duration"
+      unique_id: wallbox_charge_duration
+      slave: 1
+      address: 709
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "s"
+      state_class: measurement
+
+    - name: "End Time"
+      unique_id: wallbox_end_time
+      slave: 1
+      address: 710
+      input_type: holding
+      data_type: uint32
+      state_class: measurement
+
+    - name: "Minimum Current Limit"
+      unique_id: wallbox_minimum_current_limit
+      slave: 1
+      address: 712
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "Max Current EV"
+      unique_id: wallbox_max_current_ev
+      slave: 1
+      address: 715
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+
+    - name: "Charged Energy 32bit"
+      unique_id: wallbox_charged_energy_32bit
+      slave: 1
+      address: 716
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "Wh"
+      device_class: energy
+      state_class: total_increasing
+
+    - name: "Charge Duration 32bit"
+      unique_id: wallbox_charge_duration_32bit
+      slave: 1
+      address: 718
+      input_type: holding
+      data_type: uint32
+      unit_of_measurement: "s"
+      state_class: measurement
+
+    - name: "ID Tag 1"
+      unique_id: wallbox_id_tag_1
+      slave: 1
+      address: 720
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "ID Tag 2"
+      unique_id: wallbox_id_tag_2
+      slave: 1
+      address: 722
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "ID Tag 3"
+      unique_id: wallbox_id_tag_3
+      slave: 1
+      address: 724
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "ID Tag 4"
+      unique_id: wallbox_id_tag_4
+      slave: 1
+      address: 726
+      input_type: holding
+      data_type: string
+      count: 2
+
+    - name: "ID Tag 5"
+      unique_id: wallbox_id_tag_5
+      slave: 1
+      address: 728
+      input_type: holding
+      data_type: string
+      count: 2
+
+    # HEMS Control (read/write)
+    - name: "HEMS Current Limit"
+      unique_id: wallbox_hems_current_limit
+      slave: 1
+      address: 1000
+      input_type: holding
+      data_type: uint16
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
